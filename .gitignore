@@ -1,0 +1,8 @@
+node_modules
+tmp
+asset
+.DS_Store
+Makefile
+README.md
+package.json
+package-lock.json
