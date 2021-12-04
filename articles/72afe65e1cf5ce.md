@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "【SQS/Lambda】SQS + Lambda での部分バッチ応答が嬉しすぎた"
 emoji: "💿"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["AWS","Lambda","SQS"]
