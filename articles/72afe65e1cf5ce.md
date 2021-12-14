@@ -47,6 +47,29 @@ Goのバージョンは　です。
 実際にキューにメッセージを送信してみて、関数を実行させます。
 想定は一件のみデッドレターキューに送信され、その他のメッセージは削除されることです。
 
+メッセージ送信はCLIでさくっとやります。
+
+```sh
+aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/${ACCOUNT_ID}/queue --entries file://send-message-batch.json
+```
+
+```json
+[
+  {
+    "Id": "1",
+        "MessageBody": "1",
+        "DelaySeconds": 10,
+        "MessageAttributes": {}
+  },
+  {
+    "Id": "2",
+        "MessageBody": "2",
+        "DelaySeconds": 10,
+        "MessageAttributes": {}
+  }
+]
+```
+
 ## 参考
 
 https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/?nc1=h_ls
