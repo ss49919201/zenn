@@ -48,7 +48,7 @@ CDK のバージョンは2.2.0です。
 │       ├── go.sum
 │       └── main.go
 ├── lib
-│   └── cdk-batch-failure-stack.ts
+│   └── batch-stack.ts
 ├── package.json
 ├── test
 │   └── cdk-batch-failure.test.ts
@@ -60,7 +60,7 @@ CDK のバージョンは2.2.0です。
 
 下記が今回作成するスタックです。
 イベントソース作成時のパラメータ`reportBatchItemFailures`をtrueにすることで、部分バッチ応答を有効にしています。
-また、一度でもLambda関数内で処理に失敗した(再表示された)メッセージはデッドレターキューに移動するようにしています。
+また、一度でもLambda関数内で処理に失敗した(キューに再表示された)メッセージはデッドレターキューに移動するようにしています。
 
 ```typescript:batch-stack.ts
 import { Stack, StackProps, Duration } from 'aws-cdk-lib';
@@ -196,6 +196,10 @@ Lambdaのログを確認してみます。
 
 SQS + Lambda は個人的に大好きな組み合わせなので、今回のアップデートはとても嬉しいです。(二回目)
 AWS はかなりハイペースで各サービスの機能の追加や拡張が成されますので、キャッチアップを怠らず日々のエンジニア活動に勤しみたい所存です。
+
+また、今回のCDKのソースコードはGitHubでも公開しています。
+御参考になれば幸いです。
+https://github.com/s-beats/cdk-batch-failure
 
 ## 参考
 
