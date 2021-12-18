@@ -14,7 +14,7 @@ https://qiita.com/advent-calendar/2021/lambda
 先日、SQSをイベントソースとしたLambdaで部分的なバッチ応答が可能になったことが発表されました。
 https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/?nc1=h_ls
 これが出来ずに悩んだ経験があった自分としては、とても嬉しいアップデートです！
-**部分バッチ応答**可能になったことで、複数メッセージを処理時に失敗したメッセージのみをキューに再表示できるようになりました。(元々はLambda側で自前実装が必要でした)
+部分バッチ応答が可能になったことで、複数メッセージ処理時に、失敗したメッセージのみをキューに再表示できるようになりました。(元々はLambda側で自前実装が必要でした)
 
 これは試さずにはいられないということで、GoでLambda関数を書いて試してみました。
 
@@ -60,7 +60,7 @@ CDK のバージョンは2.2.0です。
 
 下記が今回作成するスタックです。
 イベントソース作成時のパラメータ`reportBatchItemFailures`をtrueにすることで、部分バッチ応答を有効にしています。
-また、一度でもLambda関数内で処理に失敗したメッセージはデッドレターキューに移動するようにしています。
+また、一度でもLambda関数内で処理に失敗した(再表示された)メッセージはデッドレターキューに移動するようにしています。
 
 ```typescript:batch-stack.ts
 import { Stack, StackProps, Duration } from 'aws-cdk-lib';
