@@ -168,7 +168,7 @@ func main() {
 % aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/${ACCOUNT_ID}/queue --entries file://cli-input/send-message-batch.json
 ```
 
-```json:send-message-batch.json
+```json:cli-input/send-message-batch.json
 [
     {
         "Id": "1",
