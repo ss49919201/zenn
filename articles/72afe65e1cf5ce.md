@@ -104,7 +104,7 @@ Goのバージョンは1.17.3です。
 複数件のメッセージがバッチ処理された場合、ランダムで一件のみ失敗するようにします。
 handler関数のレスポンスの型は、[ドキュメント](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html)を参考に独自で宣言しています。
 
-```go
+```go:lambda/go/main.go
 package main
 
 import (
@@ -165,7 +165,7 @@ func main() {
 メッセージ送信はCLIでさくっとやります。
 
 ```sh
-aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/${ACCOUNT_ID}/queue --entries file://cli-input/send-message-batch.json
+% aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/${ACCOUNT_ID}/queue --entries file://cli-input/send-message-batch.json
 ```
 
 ```json:send-message-batch.json
