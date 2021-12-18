@@ -31,7 +31,7 @@ https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-resp
 
 となります。
 CDK で作成していきます。
-CDK のバージョンは　です。
+CDK のバージョンは2.2.0です。
 
 ```typescript
 ```
@@ -55,18 +55,18 @@ aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/
 
 ```json
 [
-  {
-    "Id": "1",
-        "MessageBody": "1",
-        "DelaySeconds": 10,
-        "MessageAttributes": {}
-  },
-  {
-    "Id": "2",
-        "MessageBody": "2",
-        "DelaySeconds": 10,
-        "MessageAttributes": {}
-  }
+    {
+        "Id": "1",
+        "MessageBody": "1"
+    },
+    {
+        "Id": "2",
+        "MessageBody": "2"
+    },
+    {
+        "Id": "3",
+        "MessageBody": "3"
+    }
 ]
 ```
 
@@ -74,3 +74,4 @@ aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/
 
 https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/?nc1=h_ls
 https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html
+https://intro-to-cdk.workshop.aws/the-workshop.html
