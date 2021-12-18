@@ -178,9 +178,12 @@ aws sqs send-message-batch --queue-url https://sqs.ap-northeast-1.amazonaws.com/
 
 Lambdaのログを確認してみます。
 
+![](https://storage.googleapis.com/zenn-user-upload/7160c863777a-20211218.png)
 
 送信した二件のメッセージがバッチ処理され、そのうち一件が失敗メッセージとして返却されています。
 続いて同じIDのメッセージがデッドレターキューの方にエンキューされていることを確認します。
+
+![](https://storage.googleapis.com/zenn-user-upload/b7d9d2545f85-20211218.png)
 
 想定通り、失敗メッセージがデッドレターキューに入っています。
 
