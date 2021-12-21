@@ -3,7 +3,7 @@ title: "【SQS/Lambda】SQS + Lambda での部分バッチ応答を試してみ�
 emoji: "💿"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["AWS","Lambda","SQS"]
-published: false
+published: true
 ---
 
 本記事は AWS LambdaとServerless Advent Calendar 2021 22 日目の記事です。
@@ -13,7 +13,7 @@ https://qiita.com/advent-calendar/2021/lambda
 
 先日、SQSをイベントソースとしたLambdaで部分的なバッチ応答が可能になったことが発表されました。
 https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/?nc1=h_ls
-これが出来ずに悩んだ経験があった自分としては、とても嬉しいアップデートです！
+これが出来なくて悩んだ経験があった自分としては、とても嬉しいアップデートです！
 部分バッチ応答が可能になったことで、複数メッセージ処理時に、失敗したメッセージのみをキューに再表示できるようになりました。(元々はLambda側で自前実装が必要でした)
 
 これは試さずにはいられないということで、動作確認をしてみました。
@@ -64,8 +64,6 @@ https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-resp
 ```
 
 下記が今回作成するスタックです。
-イベントソース作成時のパラメータ`reportBatchItemFailures`をtrueにすることで、部分バッチ応答を有効にしています。
-また、一度でもLambda関数内で処理に失敗した(キューに再表示された)メッセージはデッドレターキューに移動するようにしています。
 
 ```typescript:batch-stack.ts
 import { Stack, StackProps, Duration } from 'aws-cdk-lib';
@@ -102,10 +100,12 @@ export class CdkBatchFailureStack extends Stack {
 }
 ```
 
+イベントソース作成時のパラメータ`reportBatchItemFailures`をtrueにすることで、部分バッチ応答を有効にしています。
+また、一度でもLambda関数内で処理に失敗した(キューに再表示された)メッセージはデッドレターキューに移動するようにしています。
+
 ## 関数作成
 
-動作確認をやりやすくする為、複数件のメッセージがバッチ処理された場合にランダムで一件のみ失敗させるようにします。
-handler関数のレスポンスの型は、[ドキュメント](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html)を参考に独自で宣言しています。
+下記が今回作成するLambda関数です。
 
 ```go:lambda/go/main.go
 package main
@@ -161,6 +161,9 @@ func main() {
 	lambda.Start(handler)
 }
 ```
+
+動作確認をやりやすくする為、複数件のメッセージがバッチ処理された場合にランダムで一件のみ失敗させるようにします。
+handler関数のレスポンスの型は、[ドキュメント](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html)を参考に独自で宣言しています。
 
 ## 動作確認
 
