@@ -133,10 +133,7 @@ func handler(ctx context.Context, sqsEvent events.SQSEvent) (res SqsBatchRespons
 	fmt.Printf("Received %d records\n", len(sqsEvent.Records))
 
 	rand.Seed(time.Now().Unix())
-	var randInt int
-	if len(sqsEvent.Records) > 1 {
-		randInt = rand.Intn(len(sqsEvent.Records))
-	}
+	randInt := rand.Intn(len(sqsEvent.Records))
 
 	for i, message := range sqsEvent.Records {
 		fmt.Printf("The message %s for event source %s = %s \n", message.MessageId, message.EventSource, message.Body)
