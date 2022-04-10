@@ -25,18 +25,13 @@ func NewCdkGoExampleStack(scope constructs.Construct, id string, props *CdkGoExa
 		IsDefault: jsii.Bool(true),
 	})
 
-	securityGroup := awsec2.NewSecurityGroup(stack, jsii.String("ExampleSecurityGroup"), &awsec2.SecurityGroupProps{
-		Vpc: defaultVpc,
-	})
-
 	// EC2インスタンスを作成
 	awsec2.NewInstance(stack, jsii.String("ExampleInstance"), &awsec2.InstanceProps{
 		InstanceType: awsec2.NewInstanceType(jsii.String("t3.micro")),
 		MachineImage: awsec2.NewAmazonLinuxImage(&awsec2.AmazonLinuxImageProps{
 			Generation: awsec2.AmazonLinuxGeneration_AMAZON_LINUX_2,
 		}),
-		Vpc:           defaultVpc,
-		SecurityGroup: securityGroup,
+		Vpc: defaultVpc,
 	})
 
 	return stack
@@ -56,7 +51,7 @@ func main() {
 
 func env() *awscdk.Environment {
 	return &awscdk.Environment{
-		Account: jsii.String(os.Getenv("CDK_DEFAULT_ACCOUNT")),
-		Region:  jsii.String(os.Getenv("CDK_DEFAULT_REGION")),
+		Account: jsii.String(os.Getenv("ACCOUNT_ID")),
+		Region:  jsii.String(os.Getenv("REGION")),
 	}
 }
