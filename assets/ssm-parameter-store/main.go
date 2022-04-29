@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -46,25 +47,32 @@ func fetchAndPrint() {
 
 	svc := ssm.NewFromConfig(cfg)
 
+	var params []types.Parameter
 	var nextToken *string
 	for {
-		op, err := svc.GetParametersByPath(ctx, &ssm.GetParametersByPathInput{
+		input := &ssm.GetParametersByPathInput{
 			Path:      aws.String("/beats/"),
 			NextToken: nextToken,
-		})
+		}
+
+		op, err := svc.GetParametersByPath(ctx, input)
 		if err != nil {
 			log.Fatalf("failed to get parameter, %v", err)
 		}
 
-		for _, v := range op.Parameters {
-			fmt.Printf("Name: %#v\n", *v.Name)
-			fmt.Printf("Value: %#v\n", *v.Value)
-		}
+		params = append(params, op.Parameters...)
 
+		nextToken = op.NextToken
 		if op.NextToken == nil {
 			break
-		} else {
-			nextToken = op.NextToken
 		}
+	}
+
+	for _, v := range params {
+		os.Setenv(*v.Name, *v.Value)
+	}
+
+	for _, v := range params {
+		fmt.Println(os.Getenv(*v.Name))
 	}
 }
