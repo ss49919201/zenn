@@ -1,4 +1,4 @@
-import * as cdk from "aws-cdk-lib/core";
+import * as cdk from "aws-cdk-lib";
 import * as ecr from "aws-cdk-lib/aws-ecr";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import { Construct } from 'constructs';
