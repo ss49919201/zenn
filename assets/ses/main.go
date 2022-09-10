@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"mime"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -32,7 +33,9 @@ func main() {
 		},
 	})
 
-	input.SetSource("そうしんしゃ<sender@example.com>")
+	encoded := mime.BEncoding.Encode("utf-8", "そうしんしゃ")
+	source := encoded + "<sender@example.com>"
+	input.SetSource(source)
 
 	_, err := svc.SendEmail(input)
 	if err != nil {
